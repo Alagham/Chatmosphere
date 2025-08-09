@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Setup - Chátmosphere</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body class="setup-body">
+  <div class="setup-container shadow-box">
+    <img src="./assets/Chátmospherelogo.png" alt="Logo" class="setup-logo">
+    <h2>Welcome to Chátmosphere</h2>
+    <p>Enter your username and optionally upload a profile image to continue.</p>
+    <form id="setupForm">
+      <input type="text" id="usernameInput" placeholder="Enter username" required />
+      <input type="file" id="imageInput" accept="image/*" />
+      <button type="submit">Continue</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("setupForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("usernameInput").value.trim();
+      const imageFile = document.getElementById("imageInput").files[0];
+
+      if (username) {
+        localStorage.setItem("chatUsername", username);
+      }
+
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          localStorage.setItem("chatUserImage", reader.result);
+          window.location.href = "index.html";
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</body>
+</html>

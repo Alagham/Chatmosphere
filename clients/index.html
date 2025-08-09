@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chátmosphere</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="shortcut icon" href="/clients/assets/Chátmospherelogo.png" type="image/x-icon">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header shadow-box">
+        <img class="logo" src="./assets/Chátmospherelogo.png" alt="">
+        <button class="close-sidebar"><span>✖</span></button>
+      </div>
+
+      <div class="sidebar-actions shadow-box">
+        <button id="newChatBtn">➕ New Chat</button>
+        <input type="text" placeholder="Search chats..." class="search-chat" />
+        <label class="upload-label">
+          <h3>🗃️Library</h3>
+          <input type="file" class="file-picker" hidden />
+        </label>
+        <div class="history-section">
+          <h3>🕘 History</h3>
+        </div>
+      </div>
+
+      <div class="recent-container shadow-box">
+        <h3>💬Recent Chats</h3>
+        <ul id="chatHistory">
+          <!-- Recent chat items -->
+        </ul>
+      </div>
+
+      <div class="sidebar-footer shadow-box">
+        <div class="user-profile">
+          <div class="avatar-placeholder">👤</div>
+          <div>
+            <strong id="userName1">Username</strong>
+            <span class="pro-badge">Free • <span class="pro">Pro</span></span>
+          </div>
+        </div>
+        <p class="upgrade-text">
+          Upgrade for image uploads,<br /> smarter AI, and more pro search.
+        </p>
+        <button class="learn-more">Learn more →</button>
+      </div>
+    </aside>
+
+    <!-- Main Chat Window -->
+    <main class="chat-window">
+      <div class="chat-header">
+        <div class="dropdown">
+          <button class="dropbtn">Chátmosphere</button>
+          <div class="dropdown-content">
+            <div class="dropdown-item">
+              <strong>Chátmosphere Plus</strong>
+              <p>Our smarter model and more</p>
+            </div>
+            <div class="dropdown-item">
+              <a href="#newchat">
+                <strong>Chátmosphere</strong>
+                <p>Great for everyday tasks</p>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="chat-header-right">
+          <button class="share-btn">🔗 Share</button>
+          <button class="menu-btn">...</button>
+        </div>
+      </div>
+
+      <div id="share-popup" class="share-popup hidden">
+        <h4>Share public link</h4>
+        <p>This conversation may include personal information.<br>
+        Take a moment to check the content before sharing the link.<br>
+        Your name and any messages you add after sharing stay private.
+        <a href="#">Learn more</a></p>
+        <button class="share">Share</button>
+        <button class="cancel-share">Cancel</button>
+      </div>
+
+      <div id="menu-popup" class="menu-popup hidden">
+        <button>📁 Archive</button>
+        <button>⚠️ Report Conversation</button>
+        <button>🗑 Delete</button>
+      </div>
+
+      <div class="chat-container" id="chatContainer">
+        <h2>Hello, <span id="userName2">User</span></h2>
+        <p>Welcome to <strong>Chátmosphere</strong>, how can we help you today?</p>
+      </div>
+
+      <form id="chatForm">
+        <textarea id="userInput" placeholder="Ask anything..." required></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+
+<!-- Learn More Modal -->
+<div id="learnMoreModal" class="modal hidden">
+  <div class="modal-content shadow-box">
+    <span class="close-modal">&times;</span>
+    <h2>About Chátmosphere</h2>
+    <p>Chátmosphere is your intelligent chatbot assistant. You can ask it anything, from casual conversation to serious questions.</p>
+    <h3>Features:</h3>
+    <ul>
+      <li>💬 Smart AI responses</li>
+      <li>📚 Chat history</li>
+      <li>🗂 Upload files (Pro feature)</li>
+    </ul>
+    <p><strong>How to use:</strong> Type your question in the box and hit "Send".</p>
+  </div>
+</div>
+
+</body>
+</html>
