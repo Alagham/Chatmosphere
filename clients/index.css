@@ -4,6 +4,7 @@
   padding: 0;
   margin: 0;
 }
+
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #343541;
@@ -11,6 +12,7 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+
 ul {
   list-style: none;
 }
@@ -24,28 +26,41 @@ ul {
   height: 100vh;
   color: white;
 }
+
 .loader-container {
   text-align: center;
 }
+
 .loader-logo {
   width: 150px;
   height: auto;
   margin-bottom: 20px;
 }
+
 .dots-loading span {
   animation: dotPulse 1.4s infinite;
   font-size: 100px;
   margin: 0px;
 }
+
 .dots-loading span:nth-child(2) {
   animation-delay: 0.2s;
 }
+
 .dots-loading span:nth-child(3) {
   animation-delay: 0.4s;
 }
+
 @keyframes dotPulse {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 /* ========== LAYOUT ========== */
@@ -59,7 +74,7 @@ ul {
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar {
@@ -79,12 +94,12 @@ ul {
   box-shadow: none;
 }
 
-.logo{
+.logo {
   width: 50px;
   cursor: pointer;
 }
 
-.close-sidebar{
+.close-sidebar {
   background: none;
   border: none;
   color: #00796b;
@@ -108,6 +123,7 @@ ul {
   border-bottom: 1px solid #555;
   outline: none;
 }
+
 .sidebar-actions button:hover,
 .sidebar-actions input:hover,
 .sidebar-actions label:hover,
@@ -118,16 +134,18 @@ ul {
   color: #fff;
 }
 
-#newChatBtn{
+#newChatBtn {
   background-color: #2d2d2d;
   border-radius: 5px;
 }
+
 .search-chat {
   padding: 8px;
   border: none;
   border-radius: 5px;
 }
-#newChatBtn{
+
+#newChatBtn {
   background: none;
 }
 
@@ -138,10 +156,12 @@ ul {
   text-align: left;
   cursor: pointer;
   border-radius: 5px;
-  h3{
+
+  h3 {
     color: black;
   }
-  h3:hover{
+
+  h3:hover {
     color: white;
   }
 }
@@ -208,7 +228,8 @@ ul {
   font-size: 16px;
   cursor: pointer;
 }
-.learn-more:hover{
+
+.learn-more:hover {
   background: #25c6a0;
   color: #111;
 }
@@ -246,11 +267,14 @@ ul {
   border-radius: 6px;
   cursor: pointer;
 }
-.dropbtn:hover{
+
+.dropbtn:hover {
   background: #25c6a0;
   color: #111;
 }
-.share-btn, .menu-btn{
+
+.share-btn,
+.menu-btn {
   background-color: #098481;
   color: white;
   padding: 12px 20px;
@@ -259,8 +283,10 @@ ul {
   border-radius: 6px;
   cursor: pointer;
 }
-.share-btn:hover, .menu-btn:hover{
-  background:#25c6a0 ;
+
+.share-btn:hover,
+.menu-btn:hover {
+  background: #25c6a0;
   color: #111;
 }
 
@@ -269,7 +295,7 @@ ul {
   position: absolute;
   background-color: white;
   min-width: 250px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   z-index: 1;
 }
@@ -300,6 +326,7 @@ ul {
   text-decoration: none;
   color: inherit;
 }
+
 .share-popup,
 .menu-popup {
   position: absolute;
@@ -357,7 +384,8 @@ button[type="submit"] {
   font-weight: bold;
   cursor: pointer;
 }
-button[type="submit"]:hover{
+
+button[type="submit"]:hover {
   background-color: #25c6a0;
   color: #111;
 }
@@ -370,6 +398,7 @@ button[type="submit"]:hover{
   align-items: center;
   height: 100vh;
 }
+
 .setup-container {
   text-align: center;
   padding: 20px;
@@ -378,18 +407,22 @@ button[type="submit"]:hover{
   width: 90%;
   max-width: 400px;
 }
+
 .setup-logo {
   width: 80px;
   margin-bottom: 15px;
 }
-.setup-container input, .setup-container button {
+
+.setup-container input,
+.setup-container button {
   width: 100%;
   padding: 10px;
   margin: 8px 0;
   border-radius: 5px;
   border: none;
 }
-.setup-container button{
+
+.setup-container button {
   background: #098481;
   color: white;
   cursor: pointer;
@@ -398,14 +431,20 @@ button[type="submit"]:hover{
 /* Modal */
 .modal {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: flex; justify-content: center; align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .modal.hidden {
   display: none;
 }
+
 .modal-content {
   background: white;
   padding: 20px;
@@ -414,9 +453,11 @@ button[type="submit"]:hover{
   width: 90%;
   position: relative;
 }
+
 .close-modal {
   position: absolute;
-  top: 10px; right: 15px;
+  top: 10px;
+  right: 15px;
   cursor: pointer;
   font-size: 20px;
 }
@@ -427,6 +468,7 @@ button[type="submit"]:hover{
   .app {
     flex-direction: column;
   }
+
   .sidebar {
     position: fixed;
     top: 0;
@@ -438,17 +480,21 @@ button[type="submit"]:hover{
     transition: left 0.3s ease;
     padding: 15px;
   }
+
   .sidebar.active {
     left: 0;
   }
+
   .chat-window {
     width: 100%;
     padding: 10px;
   }
+
   .chat-header {
     position: relative;
     padding: 10px;
   }
+
   .menu-toggle {
     display: inline-block;
     font-size: 24px;
@@ -458,33 +504,46 @@ button[type="submit"]:hover{
     cursor: pointer;
     margin-right: 10px;
   }
-  .dropbtn, .share-btn, .menu-btn {
+
+  .dropbtn,
+  .share-btn,
+  .menu-btn {
     padding: 8px 12px;
     font-size: 14px;
   }
-  .share-popup, .menu-popup {
+
+  .share-popup,
+  .menu-popup {
     width: 90%;
     right: 5%;
     top: 70px;
   }
-  #chatForm{
+
+  #chatForm {
     margin-top: 250px;
   }
+
   .loader-logo {
     width: 100px;
   }
+
   .dots-loading span {
     font-size: 60px;
   }
 }
+
 @media (max-width: 480px) {
   .sidebar {
     width: 220px;
   }
-  .dropbtn, .share-btn, .menu-btn {
+
+  .dropbtn,
+  .share-btn,
+  .menu-btn {
     font-size: 12px;
     padding: 6px 10px;
   }
+
   textarea {
     height: 50px;
   }
@@ -497,19 +556,23 @@ button[type="submit"]:hover{
   scrollbar-width: thin;
   scrollbar-color: #555 #171717;
 }
+
 .chat-container {
   scrollbar-width: thin;
   scrollbar-color: #555 #202123;
 }
+
 .sidebar::-webkit-scrollbar,
 .chat-container::-webkit-scrollbar {
   width: 6px;
 }
+
 .sidebar::-webkit-scrollbar-thumb,
 .chat-container::-webkit-scrollbar-thumb {
   background-color: #555;
   border-radius: 3px;
 }
+
 .sidebar::-webkit-scrollbar-track,
 .chat-container::-webkit-scrollbar-track {
   background-color: transparent;
@@ -521,31 +584,47 @@ button[type="submit"]:hover{
     background-color: #f7f7f8;
     color: #111;
   }
+
   .sidebar {
     background-color: #fff;
     color: #111;
   }
+
   .shadow-box {
     background: #f1f1f1;
   }
-  .dropbtn, .share-btn, .menu-btn {
+
+  .dropbtn,
+  .share-btn,
+  .menu-btn {
     background-color: #00796b;
     color: white;
   }
-  .share-popup, .menu-popup {
+
+  .share-popup,
+  .menu-popup {
     background: white;
     color: black;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 }
 
 /* Popup Enhancements */
-.share-popup, .menu-popup {
+.share-popup,
+.menu-popup {
   max-width: 320px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   animation: fadeIn 0.2s ease-in-out;
 }
+
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ===== USER PROFILE SETUP =====
+  // ====== USER PROFILE SETUP ======
   const username1 = localStorage.getItem("chatUsername") || "User";
   const username2 = localStorage.getItem("chatUsername") || "User";
   const userImage = localStorage.getItem("chatUserImage");
