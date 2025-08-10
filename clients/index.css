@@ -69,6 +69,9 @@ ul {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  max-height: calc(100vh);
+   scrollbar-width: thin;
+  scrollbar-color:  #098481 #25c6a0;
 }
 
 .sidebar-header {
@@ -77,6 +80,7 @@ ul {
   align-items: center;
   background: none;
   box-shadow: none;
+  
 }
 
 .logo{
@@ -98,7 +102,7 @@ ul {
   margin: 8px 0;
   background: none;
   border: none;
-  color: white;
+  color: black;
   padding: 10px;
   margin-bottom: 10px;
   transition: background 0.2s;
@@ -120,7 +124,12 @@ ul {
 
 #newChatBtn{
   background-color: #2d2d2d;
+  color: #111;
   border-radius: 5px;
+}
+#newChatBtn:hover{
+background:#111;
+color:#fff;
 }
 .search-chat {
   padding: 8px;
@@ -138,6 +147,7 @@ ul {
   text-align: left;
   cursor: pointer;
   border-radius: 5px;
+  
   h3{
     color: black;
   }
@@ -319,6 +329,9 @@ ul {
   overflow-y: auto;
   flex-grow: 1;
   margin: 20px 0;
+   max-height: calc(100vh);
+   scrollbar-width: thin;
+  scrollbar-color:  #098481 #25c6a0;
 }
 
 .message {
@@ -399,7 +412,8 @@ button[type="submit"]:hover{
 .modal {
   position: fixed;
   top: 0; left: 0;
-  width: 100%; height: 100%;
+  width: 100%;
+   height: 100%;
   background: rgba(0,0,0,0.6);
   display: flex; justify-content: center; align-items: center;
 }
@@ -419,6 +433,112 @@ button[type="submit"]:hover{
   top: 10px; right: 15px;
   cursor: pointer;
   font-size: 20px;
+}
+/* ===== COLLAPSED SIDEBAR ===== */
+.sidebar.collapsed {
+  width: 70px;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-actions button,
+.sidebar.collapsed .sidebar-actions label,
+.sidebar.collapsed .sidebar-actions input,
+.sidebar.collapsed .history-section h3,
+.sidebar.collapsed .recent-container h3,
+.sidebar.collapsed .user-profile div,
+.sidebar.collapsed .upgrade-text,
+.sidebar.collapsed .learn-more {
+  display: none;
+}
+
+.sidebar.collapsed .logo {
+  margin: auto;
+}
+
+.logo.hamburger {
+  content: url('./assets/hamburger-icon.png'); /* replace with your hamburger icon path */
+  cursor: pointer;
+}
+
+/* ===== SIDEBAR COLLAPSE / ICON-ONLY UI ===== */
+.sidebar {
+  transition: width 180ms ease;
+}
+
+/* collapsed state */
+.sidebar.collapsed {
+  width: 72px !important;
+  min-width: 72px;
+  max-width: 72px;
+}
+
+/* center header (logo) when collapsed and hide close button */
+.sidebar.collapsed .sidebar-header {
+  justify-content: center;
+}
+.sidebar.collapsed .close-sidebar {
+  display: none;
+}
+
+/* make logo smaller when collapsed */
+.sidebar.collapsed .logo {
+  width: 40px;
+  height: auto;
+  display: block;
+}
+
+/* split icon and text (JS will create .sf-icon and .sf-text) */
+.sf-icon {
+  display: inline-block;
+  width: 36px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1;
+  vertical-align: middle;
+}
+.sf-text {
+  display: inline-block;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* hide text in collapsed state, keep icons visible */
+.sidebar.collapsed .sf-text {
+  display: none;
+}
+
+/* layout tweaks for collapsed interactive elements */
+.sidebar.collapsed .sidebar-actions button,
+.sidebar.collapsed .sidebar-actions label,
+.sidebar.collapsed .history-section h3,
+.sidebar.collapsed .recent-container h3,
+.sidebar.collapsed .learn-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* hide search input when collapsed (optional) */
+.sidebar.collapsed .search-chat {
+  display: none;
+}
+
+/* ensure buttons inside sidebar don't overflow the small width */
+.sidebar.collapsed .sidebar-actions button,
+.sidebar.collapsed .upload-label,
+.sidebar.collapsed .learn-more {
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* small animation for logo swap */
+.logo.swaping {
+  transform: scale(0.98);
+  transition: transform 100ms ease;
 }
 
 
@@ -495,7 +615,8 @@ button[type="submit"]:hover{
 /* Scrollbars */
 .sidebar {
   scrollbar-width: thin;
-  scrollbar-color: #555 #171717;
+  scrollbar-color: #171717;
+  height: 100vh;
 }
 .chat-container {
   scrollbar-width: thin;
@@ -514,6 +635,7 @@ button[type="submit"]:hover{
 .chat-container::-webkit-scrollbar-track {
   background-color: transparent;
 }
+
 
 /* Light/Dark Mode */
 @media (prefers-color-scheme: light) {
