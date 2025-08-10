@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import OpenAI from "openai";
+import fetch from "node-fetch";
 
 dotenv.config();
 
@@ -9,21 +9,36 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
 app.post("/chat", async (req, res) => {
   try {
     const { message } = req.body;
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: message }]
+
+    // Send request to OpenRouter API
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`, // still from your .env
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "openai/gpt-4o-mini", // You can change this to other models OpenRouter supports
+        messages: [{ role: "user", content: message }]
+      })
     });
 
-    res.json({ reply: completion.choices[0].message.content });
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("OpenRouter API error:", data);
+      return res.status(500).json({ error: "Failed to fetch from OpenRouter" });
+    }
+
+    res.json({
+      reply: data.choices?.[0]?.message?.content || "No reply from AI."
+    });
+
   } catch (error) {
-    console.error(error);
+    console.error("Backend error:", error);
     res.status(500).json({ error: "Something went wrong" });
   }
 });
