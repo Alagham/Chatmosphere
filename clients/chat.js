@@ -199,7 +199,7 @@ function renderHistory() {
     `;
   }).join("");
   
-  historySection.innerHTML = `<h3>🕘 History</h3>${historyItems}`;
+  historySection.innerHTML = `<h3>🕘 History</h3><div class="history-list">${historyItems}</div>`;
 }
 
 function renderRecentChats() {
@@ -209,7 +209,7 @@ function renderRecentChats() {
   if (ChatApp.recentChats.length === 0) {
     recentList.innerHTML = `
       <li class="no-recent">No recent chats</li>
-      <li class="auto-delete-notice">Chats here auto-delete after 24 hours</li>
+      <li class="auto-delete-notice">⚠️ Chats here auto-delete after 24 hours</li>
     `;
     return;
   }
@@ -224,7 +224,7 @@ function renderRecentChats() {
     `;
   }).join("");
   
-  recentList.innerHTML = chatItems + `<li class="auto-delete-notice">Chats here auto-delete after 24 hours</li>`;
+  recentList.innerHTML = chatItems + `<li class="auto-delete-notice">⚠️ Chats here auto-delete after 24 hours</li>`;
 }
 
 function renderSearchResults(results) {
@@ -244,7 +244,7 @@ function renderSearchResults(results) {
     `;
   }).join("");
   
-  historySection.innerHTML = `<h3>🔍 Search Results (${results.length})</h3>${resultItems}`;
+  historySection.innerHTML = `<h3>🔍 Search Results (${results.length})</h3><div class="history-list">${resultItems}</div>`;
 }
 
 function getTimeAgo(timestamp) {
