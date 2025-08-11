@@ -32,11 +32,11 @@
         const reader = new FileReader();
         reader.onload = () => {
           localStorage.setItem("chatUserImage", reader.result);
-          window.location.href = "index.html";
+          window.location.href = "main.html";
         };
         reader.readAsDataURL(imageFile);
       } else {
-        window.location.href = "index.html";
+        window.location.href = "main.html";
       }
     });
   </script>
