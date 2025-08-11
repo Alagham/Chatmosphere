@@ -8,7 +8,6 @@ const ChatApp = {
   },
 
   saveCurrentChat() {
-    // Only save if there are actual messages
     if (this.currentSession.length > 0) {
       const session = {
         id: Date.now(),
@@ -23,18 +22,15 @@ const ChatApp = {
       renderHistory();
       renderRecentChats();
     }
-    // Always clear current session regardless
     this.currentSession = [];
   },
 
   cleanupRecentChats() {
-    const cutoff = Date.now() - (24 * 60 * 60 * 1000); // 24 hours
+    const cutoff = Date.now() - (24 * 60 * 60 * 1000);
     this.recentChats = this.recentChats.filter(c => c.timestamp > cutoff);
   },
 
   persistData() {
-    // Using in-memory storage instead of localStorage
-    // Data will persist during the session but reset on page reload
     console.log("Data persisted in memory:", {
       historyCount: this.chatHistory.length,
       recentCount: this.recentChats.length
@@ -42,7 +38,6 @@ const ChatApp = {
   },
 
   loadData() {
-    // Initialize with empty data since we can't use localStorage
     this.chatHistory = [];
     this.recentChats = [];
   },
@@ -65,17 +60,21 @@ const ChatApp = {
 };
 
 function initUserProfile() {
-  const username = ChatApp.userData.username;
+  const storedUsername = localStorage.getItem("chatUsername") || "User";
+  ChatApp.userData.username = storedUsername;
+  
   const userName1 = document.getElementById("userName1");
   const userName2 = document.getElementById("userName2");
   
-  if (userName1) userName1.textContent = username;
-  if (userName2) userName2.textContent = username;
+  if (userName1) userName1.textContent = storedUsername;
+  if (userName2) userName2.textContent = storedUsername;
 
-  if (ChatApp.userData.userImage) {
+  const userImage = localStorage.getItem("chatUserImage");
+  if (userImage) {
+    ChatApp.userData.userImage = userImage;
     const avatar = document.querySelector(".avatar-placeholder");
     if (avatar) {
-      avatar.innerHTML = `<img src="${ChatApp.userData.userImage}" alt="User Avatar" class="user-avatar" />`;
+      avatar.innerHTML = `<img src="${userImage}" alt="User Avatar" style="width:30px;height:30px;border-radius:50%;object-fit:cover;" />`;
     }
   }
 }
@@ -95,12 +94,19 @@ async function sendMessage() {
   
   if (!text) return;
   
-  // Add user message to chat
   addMessage("User", text);
   userInput.value = "";
   
+  const loadingMessage = {
+    sender: "Chátmosphere",
+    text: "...",
+    timestamp: Date.now(),
+    isLoading: true
+  };
+  ChatApp.currentSession.push(loadingMessage);
+  renderChat(ChatApp.currentSession);
+  
   try {
-    // Call your API
     const response = await fetch('http://localhost:3000/chat', {
       method: 'POST',
       headers: {
@@ -109,33 +115,32 @@ async function sendMessage() {
       body: JSON.stringify({ message: text })
     });
 
+    ChatApp.currentSession = ChatApp.currentSession.filter(msg => !msg.isLoading);
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
     
-    // Add AI response to chat
     addMessage("Chátmosphere", data.reply);
     
   } catch (error) {
     console.error('API Error:', error);
+    ChatApp.currentSession = ChatApp.currentSession.filter(msg => !msg.isLoading);
     addMessage("Chátmosphere", "Sorry, I'm having trouble connecting right now. Please try again.");
   }
 }
 
 function startNewChat() {
-  // Save current chat to history if it has messages
   ChatApp.saveCurrentChat();
-  // Clear current session and render fresh interface
   ChatApp.currentSession = [];
   renderChat([]);
   
-  // Clear search if active
   const searchInput = document.querySelector(".search-chat");
   if (searchInput) {
     searchInput.value = "";
-    renderHistory(); // Show full history again, not search results
+    renderHistory(); 
   }
 }
 
@@ -166,14 +171,14 @@ function renderChat(messages) {
   
   chatBox.innerHTML = messages.map(msg => {
     const messageClass = msg.sender === "User" ? "user-message" : "bot-message";
+    const displayText = msg.isLoading ? "<em>Typing...</em>" : msg.text;
     return `
       <div class="chat-message ${messageClass}">
-        <strong>${msg.sender}:</strong> ${msg.text}
+        <strong>${msg.sender}:</strong> ${displayText}
       </div>
     `;
   }).join("");
   
-  // Scroll to bottom
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
@@ -187,17 +192,14 @@ function renderHistory() {
   }
   
   const historyItems = ChatApp.chatHistory.map(chat => {
-    const date = new Date(chat.timestamp).toLocaleDateString();
     return `
       <div class="history-item" onclick="ChatApp.loadChat(${chat.id})">
         <div class="history-preview">${chat.preview}</div>
-        <div class="history-date">${date}</div>
-        <button class="delete-chat" onclick="event.stopPropagation(); ChatApp.deleteChat(${chat.id})">🗑</button>
       </div>
     `;
   }).join("");
   
-  historySection.innerHTML = `<h3>🕘 History</h3>${historyItems}`;
+  historySection.innerHTML = `<h3>🕘 History</h3><div class="history-list">${historyItems}</div>`;
 }
 
 function renderRecentChats() {
@@ -205,11 +207,14 @@ function renderRecentChats() {
   if (!recentList) return;
   
   if (ChatApp.recentChats.length === 0) {
-    recentList.innerHTML = `<li class="no-recent">No recent chats</li>`;
+    recentList.innerHTML = `
+      <li class="no-recent">No recent chats</li>
+      <li class="auto-delete-notice">⚠️ Chats here auto-delete after 24 hours</li>
+    `;
     return;
   }
   
-  recentList.innerHTML = ChatApp.recentChats.map(chat => {
+  const chatItems = ChatApp.recentChats.map(chat => {
     const timeAgo = getTimeAgo(chat.timestamp);
     return `
       <li class="recent-chat-item" onclick="ChatApp.loadChat(${chat.id})">
@@ -218,6 +223,8 @@ function renderRecentChats() {
       </li>
     `;
   }).join("");
+  
+  recentList.innerHTML = chatItems + `<li class="auto-delete-notice">⚠️ Chats here auto-delete after 24 hours</li>`;
 }
 
 function renderSearchResults(results) {
@@ -230,16 +237,14 @@ function renderSearchResults(results) {
   }
   
   const resultItems = results.map(chat => {
-    const date = new Date(chat.timestamp).toLocaleDateString();
     return `
       <div class="history-item search-result" onclick="ChatApp.loadChat(${chat.id})">
         <div class="history-preview">${chat.preview}</div>
-        <div class="history-date">${date}</div>
       </div>
     `;
   }).join("");
   
-  historySection.innerHTML = `<h3>🔍 Search Results (${results.length})</h3>${resultItems}`;
+  historySection.innerHTML = `<h3>🔍 Search Results (${results.length})</h3><div class="history-list">${resultItems}</div>`;
 }
 
 function getTimeAgo(timestamp) {
@@ -254,43 +259,65 @@ function getTimeAgo(timestamp) {
   return new Date(timestamp).toLocaleDateString();
 }
 
-// Initialize the app when DOM is loaded
-document.addEventListener("DOMContentLoaded", () => {
-  ChatApp.loadData();
-  initUserProfile();
-  renderHistory();
-  renderRecentChats();
-
-  // New Chat button event listener
-  const newChatBtn = document.getElementById("newChatBtn");
-  if (newChatBtn) {
-    newChatBtn.addEventListener("click", startNewChat);
+function setupEventListeners() {
+  const chatForm = document.getElementById("chatForm");
+  if (chatForm) {
+    const newForm = chatForm.cloneNode(true);
+    chatForm.parentNode.replaceChild(newForm, chatForm);
+    
+    newForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      sendMessage();
+    });
   }
 
-  // Search functionality
+  const newChatBtn = document.getElementById("newChatBtn");
+  if (newChatBtn) {
+    const newBtn = newChatBtn.cloneNode(true);
+    newChatBtn.parentNode.replaceChild(newBtn, newChatBtn);
+    
+    newBtn.addEventListener("click", startNewChat);
+  }
+
   const searchInput = document.querySelector(".search-chat");
   if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
+    const newInput = searchInput.cloneNode(true);
+    searchInput.parentNode.replaceChild(newInput, searchInput);
+    
+    newInput.addEventListener("input", (e) => {
       const keyword = e.target.value.trim();
       searchChats(keyword);
     });
   }
 
-  // Chat form submission - THIS IS THE SEND BUTTON EVENT LISTENER
-  const chatForm = document.getElementById("chatForm");
-  if (chatForm) {
-    chatForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      sendMessage(); // This calls your API function
+  const learnMoreBtn = document.querySelector(".learn-more");
+  const modal = document.getElementById("learnMoreModal");
+  const closeModal = document.querySelector(".close-modal");
+
+  if (learnMoreBtn && modal && closeModal) {
+    learnMoreBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+    closeModal.addEventListener("click", () => modal.classList.add("hidden"));
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) modal.classList.add("hidden");
     });
   }
+}
 
-  // Cleanup recent chats every minute
-  setInterval(() => {
-    ChatApp.cleanupRecentChats();
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    ChatApp.loadData();
+    initUserProfile();
+    renderHistory();
     renderRecentChats();
-  }, 60000);
+    setupEventListeners();
+
+    setInterval(() => {
+      ChatApp.cleanupRecentChats();
+      renderRecentChats();
+    }, 60000);
+
+    console.log("ChatApp initialized successfully!");
+  }, 100);
 });
 
-// Make functions available globally for onclick handlers
-window.ChatApp = ChatApp;
+window.ChatApp = ChatApp
