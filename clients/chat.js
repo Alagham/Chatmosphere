@@ -320,4 +320,4 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 100);
 });
 
-window.ChatApp = ChatApp;
+window.ChatApp = ChatApp
