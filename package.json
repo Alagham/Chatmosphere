@@ -1,5 +1,24 @@
 {
+  "name": "chatmosphere",
+  "version": "1.0.0",
+  "description": "AI Chatbot Web Application - A collaborative team project",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
+  },
   "dependencies": {
-    "node-fetch": "^3.3.2"
-  }
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+    "openai": "^5.12.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

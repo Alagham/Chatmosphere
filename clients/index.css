@@ -634,6 +634,48 @@ button[type="submit"]:hover {
     right: 5%;
     top: 70px;
   }
+  .share-popup {
+  position: absolute;
+  top: 40px; /* adjust based on your button */
+  right: 0;
+  background: #1f1f1f;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+  max-width: 260px;
+}
+
+.share-quick {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  justify-content: space-around;
+}
+
+.share-quick button {
+  background: #098481;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.share-quick button:hover {
+  background: #25c6a0;
+  color: #111;
+}
+
+.share-warning {
+  font-size: 12px;
+  color: #ccc;
+  line-height: 1.4;
+  margin: 0;
+}
+
 
   #chatForm {
     margin-top: 250px;

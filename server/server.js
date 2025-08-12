@@ -1,19 +1,29 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import fetch from "node-fetch";
 
-dotenv.config();
+// Get __dirname in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+// Load .env from the "server" folder
+dotenv.config({ path: path.join(__dirname, ".env") });
+
+console.log("✅ API Key loaded:", !!process.env.OPENROUTER_API_KEY);
+
+// Initialize Express
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Chat endpoint
 app.post("/chat", async (req, res) => {
   try {
     const { message } = req.body;
 
-    // Send request to OpenRouter API
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -21,7 +31,7 @@ app.post("/chat", async (req, res) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "openai/gpt-4o-mini", // You can change this to other models OpenRouter supports
+        model: "openai/gpt-4o-mini",
         messages: [{ role: "user", content: message }]
       })
     });
@@ -29,12 +39,12 @@ app.post("/chat", async (req, res) => {
     const data = await response.json();
 
     if (!response.ok) {
-  console.error("OpenRouter API error:", data);
-  return res.status(500).json({
-    error: "Failed to fetch from OpenRouter",
-    details: data
-  });
-}
+      console.error("OpenRouter API error:", data);
+      return res.status(500).json({
+        error: "Failed to fetch from OpenRouter",
+        details: data
+      });
+    }
 
     res.json({
       reply: data.choices?.[0]?.message?.content || "No reply from AI."
@@ -46,5 +56,6 @@ app.post("/chat", async (req, res) => {
   }
 });
 
+// Start server
 const PORT = 3000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
