@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function fetchBotResponse(prompt) {
     try {
-      const res = await fetch("http://localhost:3000/chat", {
+      const res = await fetch("https://chatmosphere.onrender.com/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
