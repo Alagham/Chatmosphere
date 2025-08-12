@@ -57,9 +57,10 @@ app.post("/chat", async (req, res) => {
 });
 
 // Catch-all route to serve index.html
-app.get("*", (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
 
 // Port setup
 const PORT = process.env.PORT || 3000;
