@@ -17,7 +17,7 @@ app.post("/chat", async (req, res) => {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`, // still from your .env
+        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -29,9 +29,12 @@ app.post("/chat", async (req, res) => {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("OpenRouter API error:", data);
-      return res.status(500).json({ error: "Failed to fetch from OpenRouter" });
-    }
+  console.error("OpenRouter API error:", data);
+  return res.status(500).json({
+    error: "Failed to fetch from OpenRouter",
+    details: data
+  });
+}
 
     res.json({
       reply: data.choices?.[0]?.message?.content || "No reply from AI."
