@@ -176,22 +176,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function fetchBotResponse(prompt) {
-    try {
-      const res = await fetch("https://chatmosphere.onrender.com/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message: prompt })
-      });
+  try {
+    const res = await fetch("https://chatmosphere.onrender.com/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: prompt })
+    });
 
-      const data = await res.json();
-      return data.reply || "Sorry, I couldn't get a response.";
-    } catch (error) {
-      console.error(error);
-      return "Error fetching response.";
+    if (!res.ok) {
+      throw new Error(`Server error: ${res.status}`);
     }
+
+    const data = await res.json();
+    return data.reply;
+  } catch (error) {
+    console.error("Error fetching response:", error);
+    return "Sorry, I couldn’t get a response from the AI.";
   }
+}
+
+
+
 
   if (chatForm && chatContainer && userInput) {
     chatForm.addEventListener("submit", async (e) => {

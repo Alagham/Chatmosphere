@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import fetch from "node-fetch";
 import path from "path";
 import { fileURLToPath } from "url";
+import { console } from "inspector";
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.post("/chat", async (req, res) => {
   try {
     const { message } = req.body;
-
+    console.log(message)
     // Call OpenRouter API
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -37,6 +38,7 @@ app.post("/chat", async (req, res) => {
     });
 
     const data = await response.json();
+    console.log(data)
 
     if (!response.ok) {
       console.error("OpenRouter API error:", data);
