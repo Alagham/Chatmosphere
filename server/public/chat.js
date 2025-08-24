@@ -161,6 +161,7 @@ function renderChat(messages) {
   if (!chatBox) return;
   
   if (!messages.length) {
+    
     const username = ChatApp.userData.username;
     chatBox.innerHTML = `
       <h2>Hello, <span id="userName2">${username}</span></h2>

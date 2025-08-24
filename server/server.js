@@ -28,7 +28,7 @@ app.post("/chat", async (req, res) => {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer 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`,
+        "Authorization": `Bearer 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`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -47,7 +47,7 @@ app.post("/chat", async (req, res) => {
         details: data
       });
     }
-
+    
     res.json({
       reply: data.choices?.[0]?.message?.content || "No reply from AI."
     });
@@ -56,6 +56,7 @@ app.post("/chat", async (req, res) => {
     console.error("Backend error:", error);
     res.status(500).json({ error: "Something went wrong" });
   }
+  
 });
 
 // Catch-all route to serve index.html
